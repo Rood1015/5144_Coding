@@ -24,10 +24,11 @@ store = {}
 def put_value(key):
     data = request.get_json(silent=True)
     if not isinstance(data, dict) or "value" not in data:
+        logging.info("%s key=%s status=400", request.method, key)
         return jsonify({"error": "Request must contain a value"}), 400
     with store_lock:
         store[key] = data["value"]
-    logging.info("POST key=%s status=200", key)
+    logging.info("%s key=%s status=200", request.method, key)
     return jsonify({"status": "ok"}), 200
 
 
@@ -45,9 +46,10 @@ def get_value(key):
 def delete_value(key):
     with store_lock:
         if key not in store:
+            logging.info("DELETE key=%s status=404", key)
             return jsonify({"error": "Key not found"}), 404
         del store[key]
-    logging.info("DEL key=%s status=200", key)
+    logging.info("DELETE key=%s status=200", key)
     return jsonify({"status": "ok"}), 200
 
 if __name__ == "__main__":
