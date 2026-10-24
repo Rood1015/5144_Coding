@@ -29,7 +29,6 @@ def put_value(key):
     logging.info("%s key=%s status=200", request.method, key)
     return jsonify({"status": "ok"}), 200
 
-
 @app.route("/<key>", methods=["GET"])
 def get_value(key):
     with storage_lock:
