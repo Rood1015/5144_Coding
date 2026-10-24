@@ -13,4 +13,4 @@ I assumed that in-memory storage was sufficient for the basic version of the pro
 
 ## 4. Future Improvements
 
-Future improvements could include saving data to a file or database so it could save datas after server restarts. I could also perform more extensive concurrency and performance tests, improve input validation, and test the server with larger workloads.
+Future improvements could include saving data to a file or database so it could save datas after server stops or restarts. I could also perform more extensive concurrency and performance tests, improve input validation, and test the server with larger workloads.

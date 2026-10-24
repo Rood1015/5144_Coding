@@ -4,12 +4,9 @@
 A simple key-value store server built with Python and Flask. It supports adding, retrieving, updating, and deleting key-value pairs through HTTP requests.
 
 ## Features
-- POST and PUT: Add or update values.
+- POST/PUT: Add or update values.
 - GET: Retrieve values.
 - DELETE: Remove values.
-- Thread safety using a lock.
-- Timestamped operation logs.
-- Error handling for invalid requests and missing keys.
 
 ## Requirements
 - Python 3
@@ -76,8 +73,7 @@ python kv_bench.py
 ```
 
 ## Storage and Logs
-Data is stored in memory and is lost when the server stops. 
-Logs are saved to `logs/operations.log`.
+Data is stored in memory and is lost when the server stops. Logs are saved to `logs/operations.log`.
 
 ## Limitations
-Persistent storage is not currently implemented.
+Datas are removed after a server restart or a stop.
