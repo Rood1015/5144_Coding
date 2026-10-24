@@ -12,13 +12,11 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(message)s",
 )
 
-store_lock = threading.Lock()
+storage_lock = threading.Lock()
 
 app = Flask(__name__)
 
-# In-memory key-value storage
-store = {}
-
+storage = {}
 
 @app.route("/<key>", methods=["POST", "PUT"])
 def put_value(key):
@@ -26,29 +24,29 @@ def put_value(key):
     if not isinstance(data, dict) or "value" not in data:
         logging.info("%s key=%s status=400", request.method, key)
         return jsonify({"error": "Request must contain a value"}), 400
-    with store_lock:
-        store[key] = data["value"]
+    with storage_lock:
+        storage[key] = data["value"]
     logging.info("%s key=%s status=200", request.method, key)
     return jsonify({"status": "ok"}), 200
 
 
 @app.route("/<key>", methods=["GET"])
 def get_value(key):
-    with store_lock:
-        if key not in store:
+    with storage_lock:
+        if key not in storage:
             logging.info("GET key=%s status=404", key)
             return jsonify({"error": "Key not found"}), 404
-        value = store[key]
+        value = storage[key]
     logging.info("GET key=%s status=200", key)
     return jsonify({"value": value}), 200
 
 @app.route("/<key>", methods=["DELETE"])
 def delete_value(key):
-    with store_lock:
-        if key not in store:
+    with storage_lock:
+        if key not in storage:
             logging.info("DELETE key=%s status=404", key)
             return jsonify({"error": "Key not found"}), 404
-        del store[key]
+        del storage[key]
     logging.info("DELETE key=%s status=200", key)
     return jsonify({"status": "ok"}), 200
 
