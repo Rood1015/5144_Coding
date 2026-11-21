@@ -3,6 +3,7 @@ import logging
 import os
 import threading
 
+PORT = int(os.environ.get("PORT", 8080))
 
 os.makedirs("logs", exist_ok=True)
 
@@ -50,4 +51,4 @@ def delete_value(key):
     return jsonify({"status": "ok"}), 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, threaded=True)
+    app.run(host="0.0.0.0", port=PORT, threaded=True)

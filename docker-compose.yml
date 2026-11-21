@@ -1,0 +1,31 @@
+services:
+  kv1:
+    build:
+      context: .
+      target: kv-store
+    environment:
+      - PORT=8080
+
+  kv2:
+    build:
+      context: .
+      target: kv-store
+    environment:
+      - PORT=8080
+
+  kv3:
+    build:
+      context: .
+      target: kv-store
+    environment:
+      - PORT=8080
+
+  router:
+    build:
+      context: .
+      target: router
+    ports:
+      - "5555:5555"
+    environment:
+      ROUTER_PORT: 5555
+      KV_STORES: ${KV_STORES:-http://kv1:8080,http://kv2:8080,http://kv3:8080}
